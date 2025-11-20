@@ -1,0 +1,62 @@
+# =====================
+# PYTHON / DJANGO
+# =====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.log
+*.sqlite3
+
+# Virtual environment
+venv/
+.venv/
+
+# Django static & media
+staticfiles/
+media/
+
+# Environment variables
+.env
+*.env
+
+# Django local settings
+local_settings.py
+
+# =====================
+# REACT / REACT NATIVE
+# =====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+build/
+dist/
+.expo/
+.expo-shared/
+
+# React Native iOS
+ios/Pods/
+ios/build/
+
+# React Native Android
+android/.gradle/
+android/app/build/
+android/local.properties
+
+# Metro cache
+.metro-cache/
+.expo/
+
+# =====================
+# EDITOR / SYSTEM FILES
+# =====================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*.tmp
