@@ -15,6 +15,8 @@ from users_app.serializers import UserSerializer
 from .services import TwoFactorService
 # Create your views here.
 # views.py - Login Endpoint
+
+#{"email":"solomonokuneye1@gmail.com","password":"test2345"}
 @api_view(['POST'])
 @permission_classes([])  # No authentication required for login
 def login_with_2fa(request):

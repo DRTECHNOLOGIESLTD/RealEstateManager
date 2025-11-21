@@ -5,6 +5,7 @@ from datetime import timedelta
 import random
 import pyotp
 from django.core.mail import send_mail
+import requests
 from django.conf import settings
 
 
@@ -42,32 +43,44 @@ class TwoFactorService:
         
         return two_fa
     
+
+
     @staticmethod
     def send_otp_email(user, otp):
         """
-        Send OTP via email
+        Send OTP to user email using Resend API
         """
-        subject = 'Your Verification Code'
-        message = f'''
-        Hello {user.first_name},
-        
-        Your verification code is: {otp}
-        
-        This code will expire in 10 minutes.
-        
-        If you didn't request this code, please ignore this email.
-        
-        Best regards,
-        Real Estate Team
-        '''
-        
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-        )
+        subject = "Your Verification Code"
+        html = f"""
+        <p>Hello {user.first_name},</p>
+        <p>Your verification code is: <strong>{otp}</strong></p>
+        <p>This code will expire in 10 minutes.</p>
+        <p>If you didn't request this code, please ignore this email.</p>
+        <p>Best regards,<br/>Real Estate Team</p>
+        """
+
+        data = {
+            "from": settings.RESEND_FROM_EMAIL,  # Must be a verified sender
+            "to": [user.email],
+            "subject": subject,
+            "html": html
+        }
+
+        headers = {
+            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.post("https://api.resend.com/emails", json=data, headers=headers)
+            response.raise_for_status()
+            return True  # Email sent successfully
+        except requests.exceptions.HTTPError as http_err:
+            print(f"HTTP error occurred: {http_err} - {response.text}")
+            return False
+        except requests.exceptions.RequestException as err:
+            print(f"Request exception: {err}")
+            return False
     
     @staticmethod
     def send_otp_sms(user, otp):
