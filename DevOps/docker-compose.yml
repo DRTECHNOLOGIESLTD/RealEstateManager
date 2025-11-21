@@ -1,0 +1,30 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/realestate
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: realestate
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+
+  redis:
+    image: redis:alpine
+
+  celery:
+    build: .
+    command: celery -A realestate worker --loglevel=info
+    depends_on:
+      - redis
+      - db

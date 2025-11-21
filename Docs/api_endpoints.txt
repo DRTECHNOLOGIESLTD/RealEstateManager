@@ -1,0 +1,25 @@
+POST /api/auth/login/
+Body: { "email": "user@example.com", "password": "password" }
+Response: { "requires_2fa": true, "message": "OTP sent to your email" }
+
+POST /api/auth/verify-2fa/
+Body: { "email": "user@example.com", "otp": "123456" }
+Response: { "access": "token", "refresh": "token", "user": {...} }
+
+POST /api/auth/enable-2fa/
+Headers: Authorization: Bearer <token>
+Body: { "method": "email" }
+
+
+
+
+POST /api/payments/initiate/{lease_id}/
+Headers: Authorization: Bearer <token>
+Response: { "client_secret": "stripe_secret", "payment_id": 1 }
+
+POST /api/webhooks/stripe/
+Webhook for Stripe payment confirmation
+
+
+
+

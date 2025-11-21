@@ -37,7 +37,59 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third-party apps
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    
+    # Created apps
+    'auth_app',
+    'users_app',
+    'payments_app',
 ]
+
+# Custom User Model
+AUTH_USER_MODEL = 'users_app.User'
+
+# settings.py - JWT Settings
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,  # New refresh token on each use
+    'BLACKLIST_AFTER_ROTATION': True,  # Security: prevent reuse of old tokens
+    'UPDATE_LAST_LOGIN': True,
+    
+    'ALGORITHM': 'HS256',
+    #'SIGNING_KEY': settings.SECRET_KEY,
+    'VERIFYING_KEY': None,
+    
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
+
+# Django REST Framework Settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',  # Anonymous users: 100 requests/day
+        'user': '1000/day',  # Authenticated users: 1000 requests/day
+        'login': '5/minute',  # Login attempts: 5 per minute
+        'otp': '3/minute',   # OTP attempts: 3 per minute
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
