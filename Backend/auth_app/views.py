@@ -13,6 +13,8 @@ from .models import TwoFactorAuth
 from .serializers import VerifyOTPSerializer
 from users_app.serializers import UserSerializer
 from .services import TwoFactorService
+from django.conf import settings
+import requests
 # Create your views here.
 # views.py - Login Endpoint
 
@@ -104,3 +106,24 @@ def verify_2fa(request):
             {'error': message}, 
             status=status.HTTP_400_BAD_REQUEST
         )
+        
+        
+        
+#test views
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def test_resend(request):
+    data = {
+        "from": settings.RESEND_FROM_EMAIL,
+        "to": ["solomonokuneye1developer@gmail.com"],
+        "subject": "Testing Resend",
+        "html": "<p>Hello, this is a test email</p>"
+    }
+
+    headers = {
+        "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    r = requests.post("https://api.resend.com/emails", json=data, headers=headers)
+    return Response({"status": r.status_code, "response": r.text})

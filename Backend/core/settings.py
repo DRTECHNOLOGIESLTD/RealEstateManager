@@ -51,11 +51,10 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,  # New refresh token on each use
     'BLACKLIST_AFTER_ROTATION': True,  # Security: prevent reuse of old tokens
     'UPDATE_LAST_LOGIN': True,
-    
     'ALGORITHM': 'HS256',
+    
     #'SIGNING_KEY': settings.SECRET_KEY,
     'VERIFYING_KEY': None,
-    
     'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
