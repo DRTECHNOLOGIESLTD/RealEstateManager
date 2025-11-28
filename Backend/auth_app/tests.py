@@ -1,6 +1,6 @@
 # test_sendgrid.py
 from django.test import TestCase
-from auth_app.services import TwoFactorService
+from services.twofactor_service import TwoFactorService
 from users_app.models import User
 
 class SendGridTest(TestCase):

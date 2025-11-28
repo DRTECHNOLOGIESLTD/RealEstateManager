@@ -12,13 +12,13 @@ from users_app.models import User
 from .models import TwoFactorAuth
 from .serializers import VerifyOTPSerializer
 from users_app.serializers import UserSerializer
-from .services import TwoFactorService
+from services.twofactor_service import TwoFactorService
 from django.conf import settings
 import requests
 # Create your views here.
 # views.py - Login Endpoint
 
-#{"email":"solomonokuneye1@gmail.com","password":"test2345"}
+#{"email":"solomonokuneye1developer@gmail.com","password":"test2345"}
 @api_view(['POST'])
 @permission_classes([])  # No authentication required for login
 def login_with_2fa(request):
@@ -37,6 +37,7 @@ def login_with_2fa(request):
         user = None
     
     if not user:
+        print([email, password])
         return Response(
             {'error': 'Invalid credentials'}, 
             status=status.HTTP_401_UNAUTHORIZED

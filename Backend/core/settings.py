@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'auth_app',
     'users_app',
     'payments_app',
+    'properties_app',
 ]
 
 # Custom User Model
@@ -84,9 +85,13 @@ REST_FRAMEWORK = {
 RESEND_API_KEY = os.getenv('RESEND_API_KEY')
 RESEND_FROM_EMAIL = os.getenv('RESEND_FROM_EMAIL') 
 
+# Flutterwave settings
+FLUTTERWAVE_SECRET_KEY = os.getenv('FLUTTERWAVE_SECRET_KEY')
+FLUTTERWAVE_PUBLIC_KEY = os.getenv('FLUTTERWAVE_PUBLIC_KEY')
+FLUTTERWAVE_ENCRYPTION_KEY = os.getenv('FLUTTERWAVE_ENCRYPTION_KEY')
+FLUTTERWAVE_WEBHOOK_HASH = os.getenv('FLUTTERWAVE_WEBHOOK_HASH')
 
-
-
+FRONTEND_URL = "http://localhost:3000"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

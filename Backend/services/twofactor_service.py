@@ -1,5 +1,5 @@
 # services.py - Minimal imports version
-from .models import TwoFactorAuth
+from auth_app.models import TwoFactorAuth
 from django.utils import timezone
 from datetime import timedelta
 import random
@@ -7,7 +7,10 @@ import pyotp
 from django.core.mail import send_mail
 import requests
 from django.conf import settings
+import logging
+from twilio.rest import Client
 
+logger = logging.getLogger(__name__)
 
 class TwoFactorService:
     
